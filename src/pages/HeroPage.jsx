@@ -1,17 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FiBook, FiLayers, FiImage, FiUsers, FiTrendingUp, FiShoppingBag } from "react-icons/fi";
+import { FiBook, FiLayers, FiImage, FiUsers } from "react-icons/fi";
+import axios from "axios";
 
 function HeroPage() {
-  // Mock data for dashboard stats
+  const [bookCount, setBookCount] = useState(0);
+  const [categoryCount, setCategoryCount] = useState(0);
+  const [bannerCount, setBannerCount] = useState(0);
+
+  useEffect(() => {
+    const headers = { apikey: "310424" };
+
+    axios.get("https://bookfatherbackendfinal.onrender.com/api/books", { headers })
+      .then(res => setBookCount(res.data.length))
+      .catch(err => console.error("Failed to fetch books:", err));
+
+    axios.get("https://bookfatherbackendfinal.onrender.com/api/categories", { headers })
+      .then(res => setCategoryCount(res.data.length))
+      .catch(err => console.error("Failed to fetch categories:", err));
+
+    axios.get("https://bookfatherbackendfinal.onrender.com/api/banners", { headers })
+      .then(res => setBannerCount(res.data.length))
+      .catch(err => console.error("Failed to fetch banners:", err));
+  }, []);
+
+  // Updated stats with dynamic values
   const stats = [
-    { title: "Total Books", value: "124", icon: <FiBook size={24} />, color: "bg-blue-500" },
-    { title: "Categories", value: "18", icon: <FiLayers size={24} />, color: "bg-green-500" },
-    { title: "Active Banners", value: "5", icon: <FiImage size={24} />, color: "bg-purple-500" },
-    { title: "Users", value: "1,254", icon: <FiUsers size={24} />, color: "bg-yellow-500" },
+    { title: "Total Books", value: bookCount, icon: <FiBook size={24} />, color: "bg-blue-500" },
+    { title: "Categories", value: categoryCount, icon: <FiLayers size={24} />, color: "bg-green-500" },
+    { title: "Active Banners", value: bannerCount, icon: <FiImage size={24} />, color: "bg-purple-500" },
   ];
 
-  // Mock data for recent activity
+  // (no change)
   const recentActivity = [
     { action: "New book added", item: "The Great Gatsby", time: "2 hours ago" },
     { action: "Category updated", item: "Science Fiction", time: "5 hours ago" },
@@ -21,7 +41,7 @@ function HeroPage() {
 
   return (
     <div className="space-y-6">
-      {/* Welcome message */}
+      {/* (no change) */}
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
           Welcome to <span className="text-green-600 dark:text-green-400">BookFather Hub</span>
@@ -32,7 +52,7 @@ function HeroPage() {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <div className="p-6 flex items-center">
@@ -48,7 +68,8 @@ function HeroPage() {
         ))}
       </div>
 
-      {/* Quick access cards */}
+      {/* (rest of the component unchanged) */}
+      {/* Quick Access Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Books management */}
         <Link to="/book-fetch" className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">

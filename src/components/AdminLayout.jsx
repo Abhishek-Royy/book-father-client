@@ -68,11 +68,11 @@ function AdminLayout({ children }) {
             <h1 className="text-xl font-semibold text-gray-800 dark:text-white">
               {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
             </h1>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
                 A
               </div>
-            </div>
+            </div> */}
           </div>
         </header>
 
